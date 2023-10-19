@@ -25,6 +25,53 @@ Output:
 Following reception of the snapshot, and after each update, you must print the current state of the orderbook if it is valid. A valid orderbook state is one for which no ask is less than or equal to any bid. The orderbook state may be invalid at times due to updates having come through for one side before the other (see updates 3 and 4 of the first example). To output the orderbook state, first print one line representing the best Y bids in format [price][quantity][price][quantity], followed by one line representing the best Y asks in format [price][quantity][price][quantity]. This must be excluding price levels for which the quantity is 0. In the case that there are not Y price levels with a non-zero quantity, output those with a non-zero quantity followed by "0.0 0.000" as many times as there are missing levels (so if we have L valid levels, print "0.0 0.000" Y - L times).
 In the case that the orderbook is invalid, simply output one line consisting of the word "INVALID".
 
+#### Examples
+
+Input:
+```
+5 4 4
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725 10.6 1.928
+BID 9.9 12.900
+ASK 10.2 0.000
+ASK 10.0 3.400
+BID 10.0 0.000
+```
+Output:
+```
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.3 13.340 10.4 1.725 10.6 1.928
+INVALID
+9.9 12.900 9.8 1.000 9.6 2.335 9.5 4.621
+10.0 3.400 10.1 1.000 10.3 13.340 10.4 1.725
+```
+
+Input:
+```
+5 3 4
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725 10.6 1.928
+BID 10.0 0.000
+BID 9.9 0.000
+BID 9.6 0.000
+```
+Output:
+```
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.8 1.000 9.6 2.335 9.5 4.621 0.0 0.000
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.8 1.000 9.5 4.621 0.0 0.000 0.0 0.000
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+```
+
+
 
 ### Orderbook Reconstruction II
 
@@ -64,6 +111,98 @@ A valid orderbook state is one for which no ask is less than or equal to any bid
 To output the orderbook state, first print one line representing the best Y bids in format [price][quantity][price][quantity], followed by one line representing the best Y asks in format [price][quantity][price][quantity]. This must be excluding price levels for which the quantity is 0. In the case that there are not Y price levels with a non-zero quantity, output those with a non-zero quantity followed by "0.0 0.000" as many times as there are missing levels (so if we have L valid levels, print "0.0 0.000" Y - L times).
 In the case that the orderbook is invalid, simply output one line consisting of the word "INVALID".
 In the case that there is a sequence gap, ie the sequence number of the current update is not equal to the sequence number of the previous update + 1, output "SEQUENCE GAP" for that update.
+
+#### Examples
+
+Input:
+```
+5 6 1 4
+SNAPSHOT 7
+BID 10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+ASK 10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725 10.6 1.928
+UPDATE ASK 10.1 1.000 6
+UPDATE BID 10.0 13.100 7
+UPDATE BID 9.9 12.900 8
+UPDATE ASK 10.2 0.000 9
+UPDATE ASK 10.0 3.400 10
+UPDATE BID 10.0 0.000 11
+```
+Output:
+```
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.3 13.340 10.4 1.725 10.6 1.928
+INVALID
+9.9 12.900 9.8 1.000 9.6 2.335 9.5 4.621
+10.0 3.400 10.1 1.000 10.3 13.340 10.4 1.725
+```
+
+Input:
+```
+5 5 1 4
+UPDATE BID 10.3 13.340 11
+UPDATE ASK 9.9 17.120 12
+UPDATE BID 10.0 0.000 13
+UPDATE BID 9.9 0.000 14
+UPDATE BID 9.6 0.000 15
+SNAPSHOT 12
+ASK 10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725 10.6 1.928
+BID 10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+```
+Output:
+```
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.8 1.000 9.6 2.335 9.5 4.621 0.0 0.000
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+9.8 1.000 9.5 4.621 0.0 0.000 0.0 0.000
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+```
+
+Input:
+```
+5 10 2 4
+SNAPSHOT 7
+BID 10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335 9.5 4.621
+ASK 10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725 10.6 1.928
+UPDATE ASK 10.1 1.000 6
+UPDATE BID 10.0 13.100 7
+UPDATE BID 9.9 12.900 8
+UPDATE ASK 10.2 0.000 9
+UPDATE ASK 10.0 3.400 10
+UPDATE BID 10.0 0.000 11
+UPDATE ASK 10.3 0.000 13
+UPDATE ASK 13.4 17.000 14
+UPDATE BID 10.0 1.200 15
+SNAPSHOT 14
+ASK 10.1 1.000 10.4 1.725 12.2 3.200 13.4 17.000 14.8 0.100
+BID 9.9 12.900 9.8 1.000 9.6 2.335 9.5 4.621 9.2 2.321
+UPDATE ASK 10.1 0.980 16
+```
+Output:
+```
+10.0 13.100 9.9 17.120 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.2 3.432 10.3 13.340 10.4 1.725
+10.0 13.100 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.3 13.340 10.4 1.725 10.6 1.928
+INVALID
+9.9 12.900 9.8 1.000 9.6 2.335 9.5 4.621
+10.0 3.400 10.1 1.000 10.3 13.340 10.4 1.725
+SEQUENCE GAP
+9.9 12.900 9.8 1.000 9.6 2.335 9.5 4.621
+10.1 1.000 10.4 1.725 12.2 3.200 13.4 17.000
+10.0 1.200 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 1.000 10.4 1.725 12.2 3.200 13.4 17.000
+10.0 1.200 9.9 12.900 9.8 1.000 9.6 2.335
+10.1 0.980 10.4 1.725 12.2 3.200 13.4 17.000
+```
 
 
 
