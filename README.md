@@ -1,6 +1,6 @@
 # orderbook-reconstruction
 
-A C++ project which implements an orderbook and outputs the best bids and asks.
+A C++ project which implements two orderbooks that sorts and outputs the best bids and asks.
 
 
 
@@ -24,6 +24,7 @@ The third line will be the ask snapshot, consisting of N * 2 doubles, with doubl
 Output:
 Following reception of the snapshot, and after each update, you must print the current state of the orderbook if it is valid. A valid orderbook state is one for which no ask is less than or equal to any bid. The orderbook state may be invalid at times due to updates having come through for one side before the other (see updates 3 and 4 of the first example). To output the orderbook state, first print one line representing the best Y bids in format [price][quantity][price][quantity], followed by one line representing the best Y asks in format [price][quantity][price][quantity]. This must be excluding price levels for which the quantity is 0. In the case that there are not Y price levels with a non-zero quantity, output those with a non-zero quantity followed by "0.0 0.000" as many times as there are missing levels (so if we have L valid levels, print "0.0 0.000" Y - L times).
 In the case that the orderbook is invalid, simply output one line consisting of the word "INVALID".
+
 
 #### Examples
 
@@ -111,6 +112,7 @@ A valid orderbook state is one for which no ask is less than or equal to any bid
 To output the orderbook state, first print one line representing the best Y bids in format [price][quantity][price][quantity], followed by one line representing the best Y asks in format [price][quantity][price][quantity]. This must be excluding price levels for which the quantity is 0. In the case that there are not Y price levels with a non-zero quantity, output those with a non-zero quantity followed by "0.0 0.000" as many times as there are missing levels (so if we have L valid levels, print "0.0 0.000" Y - L times).
 In the case that the orderbook is invalid, simply output one line consisting of the word "INVALID".
 In the case that there is a sequence gap, ie the sequence number of the current update is not equal to the sequence number of the previous update + 1, output "SEQUENCE GAP" for that update.
+
 
 #### Examples
 
