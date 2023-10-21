@@ -1,6 +1,6 @@
 # orderbook-reconstruction
 
-A C++ project which implements two orderbooks that sorts and outputs the best bids and asks.
+A C++ project consisting of two orderbooks that reads data from a/synced channels and outputs the best bids and asks.
 
 
 
